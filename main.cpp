@@ -1,12 +1,21 @@
 #include <iostream>
-#include "./Logger.cpp"
-
-
+#include "Cache.cpp"
 int main()
 {
-    Logger logger;
-    logger.addEvent(3, 3, true);
-    std::string log = logger.toString();
-    std::cout << log;
+    NWayCache nc(8, 4);
+    for(int i = 0; i < 9; i++)
+    {
+        int a;
+        std::cout << "Enter an address: ";
+        std::cin >> a;
+        if(nc.insert_address(a) == 1)
+        {
+            std::cout << "Hit!\n";
+        }
+        else
+        {
+            std::cout << "Miss!\n";
+        }
+    }
     return 0;
 }
