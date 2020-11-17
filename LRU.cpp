@@ -21,15 +21,18 @@ class Frame
     // Sets a cache set index as recently used, pushing it to the back of the line
     void setRecentlyUsed(int indexInSet)
     {
-        for(int i = 0; i < length - 1; i++)
+        if(!(length <= 1))
         {
-            if(frame[i] == indexInSet)
+            for(int i = 0; i < length - 1; i++)
             {
-                // If the current position in the frame holds the recently used index
-                // Then the current position is swapped with the next
-                // This will continue until the index is at the end of the list
-                frame[i] = frame[i + 1];
-                frame[i + 1] = indexInSet;
+                if(frame[i] == indexInSet)
+                {
+                    // If the current position in the frame holds the recently used index
+                    // Then the current position is swapped with the next
+                    // This will continue until the index is at the end of the list
+                    frame[i] = frame[i + 1];
+                    frame[i + 1] = indexInSet;
+                }
             }
         }
     }
@@ -37,8 +40,8 @@ class Frame
 };
 class LRU
 {
-    const int frame_length;
-    const int length;
+    int frame_length;
+    int length;
     Frame *lru;
     public:
     LRU(int frame_length, int length) : frame_length{frame_length}, length{length}
@@ -53,8 +56,8 @@ class LRU
     {
         return lru[frameIndex].getLeastUsed();
     }
-    void updateRecentlyUsed(int frameIndex, int indexInSet)
+    void updateRecentlyUsed(int cache_index, int set_index)
     {
-        lru[frameIndex].setRecentlyUsed(indexInSet);
+        lru[cache_index].setRecentlyUsed(set_index);
     }
 };

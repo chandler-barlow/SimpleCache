@@ -1,8 +1,13 @@
 #include <iostream>
-#include "LRU.cpp"
+#include "Cache.cpp"
+
+
 
 int main()
 {
-    LRU lru(2, 8);
+    Cache cache(8, 1);
+    cache.cacheEvent(8);
+    cache.cacheEvent(8);
+    cache.cacheEvent(2);
     return 0;
 }
