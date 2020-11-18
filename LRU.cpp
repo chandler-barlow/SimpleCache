@@ -16,13 +16,12 @@ class Frame
     // Returns the least used index of the cache set
     int getLeastUsed()
     {
+        //  The first frame is always the least recently used
         return frame[0];
     }
     // Sets a cache set index as recently used, pushing it to the back of the line
     void setRecentlyUsed(int indexInSet)
     {
-        if(!(length <= 1))
-        {
             for(int i = 0; i < length - 1; i++)
             {
                 if(frame[i] == indexInSet)
@@ -34,7 +33,6 @@ class Frame
                     frame[i + 1] = indexInSet;
                 }
             }
-        }
     }
 
 };

@@ -23,14 +23,14 @@ int main()
         std::cout << "Enter an address: ";
         std::cin >> a;
         std::cout << cache.cacheEvent(a);
-        std::cout << "continue? \n 1 == yes \n 0 == no \n ->";
+        std::cout << "continue? \n1 == yes \n0 == no \n->";
         std::cin >> a;
         if(a == 0)
         {
             loop = false;
+            std::cout << "printing final state: \n";
+            cache.toString();
         }
-        std::cout << "printing final state: \n";
-        cache.printCacheState();
     }
     return 0;
 }

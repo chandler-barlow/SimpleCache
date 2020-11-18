@@ -33,27 +33,25 @@ class Set
     {
         set[index] = address;
     }
-    void toString()
+    std::string toString()
     {
+        std::stringstream ss;
         for (int i = 0; i < length; i++)
         {
             if(set[i] >= 0)
             {
-                std::cout << set[i];
+                ss << set[i];
             }
             else
             {
-                std::cout << "EMPTY";
+                ss << "EMPTY";
             }
-            if(i == length - 1)
+            if(i != length - 1)
             {
-                std::cout << "\n";
-            }
-            else
-            {
-                std::cout << ", ";
+                ss << ", ";
             }
         }
+        return ss.str();
     }
 };
 class Cache
@@ -67,7 +65,7 @@ class Cache
     // the lru object
     LRU *lru_p;
     public:
-    Cache(int length, int set_length) : length{length}, set_length{set_length}
+    Cache(int length, int set_length) : length{length/set_length}, set_length{set_length}
     {
         lru_p = new LRU(set_length, length);
         cache = (Set*)malloc(sizeof(Set) * length);
@@ -95,27 +93,33 @@ class Cache
             return false;
         }
     }
+    std::string toString()
+    {
+        std::stringstream ss;
+        for(int i = 0; i < length; i++)
+        {
+            ss << "[ ";
+            ss << cache[i].toString();
+            ss << " ]\n";
+        }
+        return ss.str();
+    }
     std::string cacheEvent(int address)
     {
         std::stringstream ss;
         if(poll_address(address))
         {
-            ss << "The address " << address << " was a hit!" << "\n";
+            ss << this->toString();
+            ss << "~ HIT ~" << "\n";
         }
         else
         {
-            ss << "The address " << address << " was a miss!" << "\n";
+            ss << this->toString();
+            ss << "~ MISS ~\n";
         }
         return ss.str();
     }
-    void printCacheState()
-    {
-        std::cout << "The state of the cache is \n";
-        for(int i = 0; i < length; i++)
-        {
-            cache[i].toString();
-        }
-    }
+
 };
 class DirectCache : public Cache
 {
