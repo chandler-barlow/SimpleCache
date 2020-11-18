@@ -1,8 +1,7 @@
 #include <stdlib.h>
-#include <iostream>
+#include <sstream>
 #include <string>
 #include "LRU.cpp"
-
 class Set
 {
     private:
@@ -38,11 +37,25 @@ class Set
     {
         for (int i = 0; i < length; i++)
         {
-            std::cout << set[i] << " " << std::endl;
+            if(set[i] >= 0)
+            {
+                std::cout << set[i];
+            }
+            else
+            {
+                std::cout << "EMPTY";
+            }
+            if(i == length - 1)
+            {
+                std::cout << "\n";
+            }
+            else
+            {
+                std::cout << ", ";
+            }
         }
     }
 };
-
 class Cache
 {
     // Block count 
@@ -53,7 +66,6 @@ class Cache
     Set *cache;
     // the lru object
     LRU *lru_p;
-
     public:
     Cache(int length, int set_length) : length{length}, set_length{set_length}
     {
@@ -83,15 +95,41 @@ class Cache
             return false;
         }
     }
-    void cacheEvent(int address)
+    std::string cacheEvent(int address)
     {
+        std::stringstream ss;
         if(poll_address(address))
         {
-            std::cout << "The address " << address << " was a hit!" << std::endl;
+            ss << "The address " << address << " was a hit!" << "\n";
         }
         else
         {
-            std::cout << "The address " << address << " was a miss!" << std::endl;
+            ss << "The address " << address << " was a miss!" << "\n";
+        }
+        return ss.str();
+    }
+    void printCacheState()
+    {
+        std::cout << "The state of the cache is \n";
+        for(int i = 0; i < length; i++)
+        {
+            cache[i].toString();
         }
     }
+};
+class DirectCache : public Cache
+{
+    DirectCache(int length) : Cache(length, 1) {}
+};
+class TwoWayCache : public Cache
+{
+    TwoWayCache(int length) : Cache(length, 2) {}
+};
+class FourWayCache : public Cache
+{
+    FourWayCache(int length) : Cache(length, 4) {}
+};
+class FullCache : public Cache
+{
+    FullCache(int length) : Cache(length, length) {}
 };
